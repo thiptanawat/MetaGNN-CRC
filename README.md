@@ -103,7 +103,7 @@ ready for use with graph neural network (GNN) frameworks.
 |----------|-------|
 | Total patients | 690 TCGA-CRC (155 COAD + 535 READ cohort) |
 | Omics layers | RNA-seq (TCGA STAR counts, VST-normalised) + TMT proteomics (CPTAC) |
-| Patients with matched proteomics | 197 |
+| Patients with matched proteomics | 95 |
 | Metabolic reference model | Recon3D v3 |
 | Reactions | 10,600 |
 | Metabolites | 5,835 |
