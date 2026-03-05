@@ -1,0 +1,4 @@
+omics_layer,n_features_total,n_mapped_to_recon3d,pct_coverage
+RNA-seq,19812,2248,11.34665859075308
+Proteomics,11348,1847,16.27599577017977
+Metabolomics,222,11,4.954954954954955

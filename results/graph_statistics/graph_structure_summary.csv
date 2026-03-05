@@ -1,0 +1,7 @@
+entity_type,count
+Reaction nodes,13543
+Metabolite nodes,4140
+substrate_of edges,29847
+produces edges,17471
+shares_metabolite edges,41980
+Currency metabolites,15

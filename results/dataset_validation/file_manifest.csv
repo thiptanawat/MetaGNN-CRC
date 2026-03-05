@@ -1,0 +1,17 @@
+filename,format,size_bytes,md5_hash,n_rows,n_cols,description
+patient_metadata.tsv,TSV,16336,f11e5a56e1dfbc36ce73182bd2ccc6ad,219,13,Patient demographic and clinical metadata
+age_distribution.csv,CSV,338,20a7cad25617eb536bc49f00b98dee7c,12,3,Patient demographic and clinical metadata
+cohort_summary.csv,CSV,667,8239393c853304334e667e271c664fc9,21,3,Patient demographic and clinical metadata
+rnaseq_gene_stats.csv,CSV,35813,419881607cdeba88a886bcc8590f1add,500,5,Omics quality control statistics
+proteomics_per_protein_stats.csv,CSV,36740,3d19c1827421132cef97bd7703ec1e4c,500,5,Omics quality control statistics
+metabolomics_coverage.csv,CSV,16732,f419433ff5b786c05704ed999faeef5b,222,6,Omics quality control statistics
+rnaseq_per_patient_stats.csv,CSV,15367,b44a4d6806fe6523bee804e47d40e078,219,5,Omics quality control statistics
+proteomics_per_patient_completeness.csv,CSV,7176,17c1c90c5a65086e6a464bac80fb773d,219,3,Omics quality control statistics
+omics_recon3d_coverage_summary.csv,CSV,177,58eb34e7ad04fa92fab50192ec341246,3,4,Omics quality control statistics
+graph_structure_summary.csv,CSV,161,40a1e47df9f6cbd515889daaeeecb22b,6,2,Graph structure statistics
+currency_metabolites.csv,CSV,715,04ed22ab71565045c864a154be8f0c20,15,4,Graph structure statistics
+edge_type_statistics.csv,CSV,128,851ab525cd1e24d97a2c0b28dba172b6,3,4,Graph structure statistics
+node_degree_distribution.csv,CSV,155,2b4bc0237fa3af8f3ea0409ce53dee3b,7,3,Graph structure statistics
+hma_pseudo_label_stats.csv,CSV,747,3f43840541aa755c9e928d460a88c8ab,15,3,HMA tissue matching data
+hma_tissue_matching.csv,CSV,10216,6327102a80954d4fab3d5fb435c54d50,219,4,HMA tissue matching data
+hma_tissue_summary.csv,CSV,583,401b4f22a43314c29c8599cf6926280b,15,4,HMA tissue matching data
