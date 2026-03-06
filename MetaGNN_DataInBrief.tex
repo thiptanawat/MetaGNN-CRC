@@ -70,7 +70,7 @@ We describe MetaGNN-CRC, a curated, Recon3D-mapped multi-omics dataset prepared 
 \begin{itemize}
 \item Reconstructing metabolic networks from multi-omics data demands specialised expertise in bioinformatics preprocessing, GPR rule parsing, and graph construction. A typical new entrant to the field faces: (i) 2--3 days navigating the GDC/PDC data portals and resolving batch-download failures; (ii) 3--5 days parsing SBML models, resolving GPR rule syntax, and handling edge cases (missing genes, compartmentalised metabolites, currency metabolite filtering); (iii) 1--2 days converting stoichiometric matrices into graph-structured tensors with correct edge typing; and (iv) 2--3 days debugging feature dimension mismatches between omics matrices and graph node indices---totalling 2--4 weeks before any model can be trained. MetaGNN-CRC provides RNA-seq and proteomic data already mapped to Recon3D reaction and metabolite nodes in a PyTorch Geometric HeteroData format, eliminating this bottleneck and lowering the entry barrier for machine learning researchers without a systems biology background.
 
-\item To our knowledge, this is the first publicly available dataset in which transcriptomic and proteomic profiles for a large clinical cancer cohort ($n = 690$) have been jointly mapped to a complete human reference genome-scale metabolic network (Recon3D v3) and released as graph-structured tensors directly loadable into GNN frameworks. Existing TCGA multi-omics releases focus on differential expression or mutation analyses and do not include the Recon3D-node-level feature mappings needed for graph-based metabolic modelling.
+\item While public patient-specific GEM resources exist---for example, context-specific reconstructions from the Human Metabolic Atlas (Robinson et al., 2020) and CRC-specific Recon3D models (Cheng et al., 2023)---to our knowledge no publicly available dataset provides the combination of (a) per-patient multi-omics features (transcriptomic and proteomic) mapped to Recon3D reaction nodes, (b) graph-structured tensors directly loadable into GNN frameworks (PyTorch Geometric HeteroData), and (c) accompanying pseudo-labels, model checkpoint, and training logs for a large clinical cohort ($n = 690$). Existing TCGA multi-omics releases focus on differential expression or mutation analyses and do not include the Recon3D-node-level feature mappings needed for graph-based metabolic modelling.
 
 \item Expression-thresholded binary reaction activity pseudo-labels and a trained MetaGNN model checkpoint are included. Researchers can use these as starting points for transfer learning to other cancer types or for experimenting with alternative supervision strategies (e.g., DepMap CRISPR essentiality, metabolic task completion labels).
 
@@ -174,7 +174,7 @@ For each patient, gene expression values were mapped to reaction nodes using GPR
 
 An enriched feature set is additionally provided in \texttt{patient\_features\_v2/}. For each reaction node and each patient, three features are computed from GPR-associated gene expression: (i) mean TPM across all encoding genes, (ii) maximum TPM, and (iii) fraction of encoding genes exceeding the cohort median TPM. This 3-dimensional per-patient reaction feature vector provides richer discriminative signal than the original scalar GPR-mapped values and is the feature set used by the trained model checkpoint.
 
-Metabolite node features (molecular weight, topological polar surface area, hydrogen bonding descriptors) were computed from ChEBI SMILES using RDKit (v2023.09.5) and are shared across all patients. All graph construction and tensor operations used PyTorch Geometric v2.5.0 on PyTorch v2.2.0 with Python 3.11. Exact dependency versions are pinned in the \texttt{environment.yml} file to ensure long-term reproducibility.
+Metabolite node features were computed from ChEBI SMILES using RDKit (v2023.09.5): 7 physico-chemical properties (molecular weight, LogP, hydrogen bond acceptors, hydrogen bond donors, topological polar surface area, ring count, formal charge) and 512-bit Morgan fingerprints (radius 2), yielding a 519-dimensional descriptor vector per metabolite node shared across all patients. All graph construction and tensor operations used PyTorch Geometric v2.5.0 on PyTorch v2.2.0 with Python 3.11. Exact dependency versions are pinned in the \texttt{environment.yml} file to ensure long-term reproducibility.
 
 \subsection{Pseudo-Label Generation}
 
@@ -201,7 +201,7 @@ RNA-seq (TPM) & 690 & 40,799 genes & 100\% \\
 Proteomics (CPTAC) & 95 & 9,153 proteins & 13.8\% \\
 Reaction node features (v1, scalar GPR) & 690 & 10,600 reactions & 100\% \\
 Reaction node features (v2, 3D enriched) & 690 & 10,600 $\times$ 3 & 100\% \\
-Metabolite node features (RDKit) & shared & 110 descriptors & 100\% \\
+Metabolite node features (RDKit) & shared & 519 per metabolite & 100\% \\
 Graph edges (substrate\_of) & -- & 20,512 & 100\% \\
 Graph edges (produces) & -- & 19,913 & 100\% \\
 Expression-thresholded labels & consensus & 10,600 reactions & 100\% \\
@@ -237,7 +237,7 @@ All data used in this study are de-identified and were obtained through approved
 
 \subsection*{Data Availability}
 
-All processed data and code are publicly available at \url{https://github.com/thiptanawat/MetaGNN-CRC} under a CC-BY 4.0 licence. The companion analysis code is available at \url{https://github.com/thiptanawat/MetaGNN} under the MIT licence. Raw TCGA RNA-seq data are accessible through the GDC Data Portal (\url{https://portal.gdc.cancer.gov}; dbGaP accession phs000178). CPTAC proteomics data are accessible through the PDC Data Portal (\url{https://pdc.cancer.gov}).
+All processed data and code are publicly available at \url{https://github.com/thiptanawat/MetaGNN-CRC} under a CC-BY 4.0 licence. A frozen, versioned archive with a persistent DOI will be deposited on Zenodo prior to publication, ensuring long-term accessibility independent of GitHub. The companion analysis code is available at \url{https://github.com/thiptanawat/MetaGNN} under the MIT licence. Raw TCGA RNA-seq data are accessible through the GDC Data Portal (\url{https://portal.gdc.cancer.gov}; dbGaP accession phs000178). CPTAC proteomics data are accessible through the PDC Data Portal (\url{https://pdc.cancer.gov}). Both repositories include SHA-256 checksums for all data files in a \texttt{MANIFEST.sha256} file to enable integrity verification.
 
 \subsection*{Acknowledgements}
 
@@ -270,6 +270,8 @@ This work was supported by the Thailand Science Research and Innovation Fund (TS
 \bibitem{Fan2025} Fan, W., Hao, Y., Hou, X., Ding, C., Huang, D., Zheng, W. \& Dai, Z. (2025). Unraveling principles of thermodynamics for genome-scale metabolic networks using graph neural networks. \textit{Cell Systems}, 16(10), 101393. \url{https://doi.org/10.1016/j.cels.2025.101393}
 
 \bibitem{Vasaikar2019} Vasaikar, S., Huang, C., Wang, X., et al. (2019). Proteogenomic analysis of human colon cancer reveals new therapeutic opportunities. \textit{Cell}, 177(4), 1035--1049.e19. \url{https://doi.org/10.1016/j.cell.2019.03.030}
+
+\bibitem{Cheng2023} Cheng, C.-T., Lai, J.-M., Chang, P.M.-H., Hong, Y.-R., Huang, C.-Y.F. \& Wang, F.-S. (2023). Identifying essential genes in genome-scale metabolic models of consensus molecular subtypes of colorectal cancer. \textit{PLOS ONE}, 18(5), e0286032. \url{https://doi.org/10.1371/journal.pone.0286032}
 
 \end{thebibliography}
 
