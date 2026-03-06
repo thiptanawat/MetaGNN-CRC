@@ -1,0 +1,276 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{xcolor}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{authblk}
+\usepackage{lineno}
+\linenumbers
+\emergencystretch=2em
+
+\begin{document}
+
+\title{MetaGNN-CRC: A Recon3D-Mapped Multi-Omics Dataset for Graph-Based Metabolic Network Reconstruction in Colorectal Cancer}
+
+\author[1]{Thiptanawat Phongwattana}
+\author[1,*]{Jonathan H. Chan}
+\affil[1]{School of Information Technology, King Mongkut's University of Technology Thonburi, 126 Pracha Uthit Rd., Bang Mod, Thung Khru, Bangkok 10140, Thailand}
+\date{}
+\maketitle
+
+\noindent\textit{* Corresponding author. E-mail: jonathan@sit.kmutt.ac.th}
+
+\noindent\textit{Received: --- $|$ Revised: --- $|$ Accepted: ---}
+
+\vspace{0.5cm}
+\noindent\textbf{Journal:} Data in Brief (Elsevier)
+
+\begin{abstract}
+We describe MetaGNN-CRC, a curated, Recon3D-mapped multi-omics dataset prepared for deposit at \url{https://github.com/thiptanawat/MetaGNN-CRC} for graph-based metabolic network reconstruction in colorectal cancer. The dataset integrates RNA sequencing data for 690 TCGA colorectal adenocarcinoma patients and TMT-labelled quantitative proteomics for 95 patients from the CPTAC programme (Vasaikar et al., 2019). All omics layers have been pre-processed and mapped to the Recon3D v3 genome-scale metabolic network (10,600 reactions, 5,835 metabolites, 2,248 genes), producing heterogeneous graph-structured tensor representations directly loadable into PyTorch Geometric. This integration step typically requires several weeks of specialised bioinformatics work and is a recognised bottleneck for researchers entering the metabolic modelling field. The dataset also includes expression-thresholded binary reaction activity pseudo-labels, enriched per-patient reaction node features, a trained model checkpoint from the MetaGNN framework, and the complete training and evaluation logs reported in the companion MethodsX article (Phongwattana \& Chan, 2026). All files are released under a Creative Commons CC-BY 4.0 licence following the FAIR data principles.
+\end{abstract}
+
+\noindent\textbf{Keywords:} Genome-scale metabolic models; Multi-omics; Colorectal cancer; TCGA; Recon3D; Graph neural network; Bioinformatics dataset; Open data
+
+\section*{Specifications Table}
+
+\noindent
+\begin{tabularx}{\textwidth}{@{}p{3.5cm}X@{}}
+\toprule
+\textbf{Subject area} & Biochemistry, Genetics and Molecular Biology; Computer Science \\
+\midrule
+\textbf{More specific subject area} & Metabolic systems biology; Computational cancer genomics; Bioinformatics \\
+\midrule
+\textbf{Data type} & Pre-processed omics matrices (CSV); Graph-structured tensors (PyTorch .pt); Clinical metadata (JSON); Model weight files (PyTorch .pt) \\
+\midrule
+\textbf{Data format} & Analysed and processed (raw TCGA data remain accessible via GDC Data Portal) \\
+\midrule
+\textbf{Parameters for data collection} & Inclusion: primary TCGA-COAD/READ tumour samples with RNA-seq STAR gene counts available via GDC ($n = 690$). CPTAC proteomics subset ($n = 95$; Vasaikar et al., 2019). Normalisation: log$_2$(TPM + 1) for RNA-seq; log$_2$ z-score for proteomics. GPR mapping: AND = min, OR = max (Zur et al., 2010 convention). Metabolite features: RDKit physico-chemical descriptors from ChEBI. \\
+\midrule
+\textbf{Description of data collection} & RNA-seq: STAR-aligned augmented gene count files downloaded from GDC Data Portal via the GDC API, TPM values extracted and combined into a single matrix. Proteomics: CPTAC TCGA-COAD TMT-labelled protein abundance, downloaded from PDC Data Portal. Graph construction: Recon3D v3 SBML/XML parsed via COBRApy into a PyTorch Geometric HeteroData object with two edge types (substrate\_of, produces). Pseudo-labels: expression-thresholded binary reaction activity via cohort-consensus GPR evaluation. \\
+\midrule
+\textbf{Source location} & Thailand (Computational Biology Lab, School of Information Technology, KMUTT) \\
+\midrule
+\textbf{Data source location} & TCGA-COAD/READ: GDC Data Portal, USA (\url{https://portal.gdc.cancer.gov}). CPTAC proteomics: PDC Data Portal, USA (\url{https://pdc.cancer.gov}). Human Metabolic Atlas GEMs: Sweden (\url{https://metabolicatlas.org}). Recon3D: Virtual Metabolic Human database, Luxembourg (\url{https://www.vmh.life}). \\
+\midrule
+\textbf{Data accessibility} & Repository: GitHub (\url{https://github.com/thiptanawat/MetaGNN-CRC}). Companion code: \url{https://github.com/thiptanawat/MetaGNN}. Licence: CC-BY 4.0. \\
+\midrule
+\textbf{Related research article} & Phongwattana, T. \& Chan, J.H. (2026). MetaGNN: An Open-Source Heterogeneous Graph Attention Network Framework for Topology-Aware Metabolic Network Reconstruction. MethodsX. \\
+\bottomrule
+\end{tabularx}
+
+\section*{Value of the Data}
+
+\begin{itemize}
+\item Reconstructing metabolic networks from multi-omics data demands specialised expertise in bioinformatics preprocessing, GPR rule parsing, and graph construction. MetaGNN-CRC provides RNA-seq and proteomic data already mapped to Recon3D reaction and metabolite nodes in a PyTorch Geometric HeteroData format, eliminating several weeks of preprocessing and lowering the entry barrier for machine learning researchers without a systems biology background.
+
+\item To our knowledge, this is the first publicly available dataset in which transcriptomic and proteomic profiles for a large clinical cancer cohort ($n = 690$) have been jointly mapped to a complete human reference genome-scale metabolic network (Recon3D v3) and released as graph-structured tensors directly loadable into GNN frameworks. Existing TCGA multi-omics releases focus on differential expression or mutation analyses and do not include the Recon3D-node-level feature mappings needed for graph-based metabolic modelling.
+
+\item Expression-thresholded binary reaction activity pseudo-labels and a trained MetaGNN model checkpoint are included. Researchers can use these as starting points for transfer learning to other cancer types or for experimenting with alternative supervision strategies (e.g., DepMap CRISPR essentiality, metabolic task completion labels).
+
+\item The graph structure file, encoding Recon3D as a heterogeneous bipartite graph with 10,600 reaction nodes, 5,835 metabolite nodes, and 40,425 stoichiometric edges, has independent reuse value for any graph-based analysis of human metabolism, including link prediction, community detection, and reaction gap-filling studies.
+
+\item Recent work has demonstrated the value of GNN approaches across diverse metabolic modelling tasks---flux estimation (scFEA; Alghamdi et al., 2021), gene essentiality prediction (FlowGAT; Hasibi et al., 2024), gap-filling (CHESHIRE; Xin et al., 2023), and thermodynamic inference (dGbyG; Fan et al., 2025)---yet no public dataset provides the graph-structured, multi-omics, patient-resolved tensors needed to benchmark GNN methods for patient-specific reconstruction on a full human GEM. MetaGNN-CRC fills this gap, enabling direct comparison of heterogeneous GNN architectures on the clinically relevant task of personalised metabolic network reconstruction.
+
+\item All data are released under a CC-BY 4.0 licence, structured according to FAIR principles, and accompanied by documentation and example loading scripts.
+\end{itemize}
+
+\section{Data Description}
+
+\subsection{Cohort Composition}
+
+The MetaGNN-CRC dataset is built around 690 colorectal adenocarcinoma patients from TCGA, comprising samples from the COAD and READ cohorts. All 690 patients have RNA-seq STAR gene counts downloaded from the GDC Data Portal (data release 36.0). A subset of 95 patients has matched CPTAC proteomic data (Vasaikar et al., 2019). Institutional ethics approval was not required, as all data are de-identified and accessed via standard TCGA data use agreements.
+
+\subsection{Omics Data Layers}
+
+\subsubsection{RNA-seq (Transcriptomics)}
+
+TPM-normalised gene expression values are provided for 40,799 genes across all 690 patients, stored as a CSV matrix (approximately 178 MB). Gene identifiers use HGNC symbols as provided in the STAR augmented gene count files. Genes with zero expression across more than 90\% of patients were removed during preprocessing. Of the 40,799 genes in the matrix, 2,248 are associated with at least one Recon3D metabolic reaction through a documented GPR rule.
+
+\subsubsection{Proteomics}
+
+TMT-labelled relative protein abundances for 9,153 proteins are provided for 95 patients (approximately 33 MB compressed), derived from the CPTAC TCGA-COAD proteomics dataset and z-score normalised. Protein identifiers use gene symbols from the CPTAC abundance report. Of the 9,153 quantified proteins, a subset corresponds to enzymes with direct Recon3D GPR associations.
+
+\subsection{Graph-Structured Tensors}
+
+The core contribution of this dataset, relative to existing TCGA multi-omics releases, is the provision of omics data in graph-tensor format ready for direct GNN input.
+
+The graph structure is a PyTorch Geometric HeteroData object encoding the Recon3D metabolic network as a heterogeneous bipartite graph with two edge-relation types: substrate\_of (20,512 directed edges from metabolites to reactions) and produces (19,913 directed edges from reactions to metabolites). Reaction node feature matrices are stored per patient as individual \texttt{.pt} files, containing GPR-mapped transcriptomic and proteomic features. Metabolite node features (physico-chemical descriptors computed from ChEBI via RDKit) are shared across patients. Patient tensors can be loaded as follows:
+
+\begin{verbatim}
+import torch
+graph = torch.load('data/processed/graph_structure.pt')
+# Original features (scalar GPR-mapped expression):
+patient = torch.load('data/processed/patient_features/PATIENT_ID.pt')
+# Enriched features (3D: mean, max, frac_above_median):
+patient_v2 = torch.load('data/processed/patient_features_v2/PATIENT_ID.pt')
+# Expression-thresholded labels:
+labels = torch.load('data/processed/hma_labels_thresholded.pt')
+\end{verbatim}
+
+\subsection{Pseudo-Labels and Model Checkpoint}
+
+Two sets of binary reaction activity pseudo-labels are provided. The original HMA labels are derived from Human Metabolic Atlas tissue-specific GEM reaction bounds (Robinson et al., 2020), where a reaction is labelled 1 if it retains non-zero flux bounds; however, these labels are heavily active-skewed (all 10,600 reactions active), rendering them unsuitable for discriminative training. The recommended expression-thresholded pseudo-labels use a cohort-consensus strategy: for each reaction, GPR-associated gene expression values are evaluated per patient (a reaction is active if any encoding gene exceeds the cohort median TPM), and a consensus label is assigned by majority vote across all 690 patients, yielding 7,434 active (70.1\%) and 3,166 inactive reactions. As discussed in the companion MethodsX article, these expression-thresholded labels provide meaningful class separation. The trained MetaGNN model checkpoint (576 KB, 143,489 parameters) is included for reproducibility and as a starting point for fine-tuning.
+
+\subsection{Dataset File Structure}
+
+Table~\ref{tab:fileinventory} enumerates all files with their formats, sizes, and descriptions.
+
+\begin{table}[!htbp]
+\centering
+\caption{File inventory for the MetaGNN-CRC dataset.}
+\label{tab:fileinventory}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.8cm}p{1.3cm}p{1.1cm}X@{}}
+\toprule
+\textbf{File / Directory} & \textbf{Format} & \textbf{Size} & \textbf{Description} \\
+\midrule
+tcga\_rna\_seq.csv & CSV & 178 MB & TPM gene expression (40,799 genes $\times$ 690 patients) \\
+cptac\_proteomics.csv & CSV & 33 MB & z-scored protein abundance (9,153 proteins $\times$ 95 patients) \\
+graph\_structure.pt & PyTorch & 15 MB & HeteroData graph (edge indices, edge features, 2 relation types) \\
+patient\_features/ & PyTorch & 1.2 GB & 690 per-patient tensor files (.pt) with GPR-mapped transcriptomic and proteomic features (95 patients with proteomics; remainder zero-filled) \\
+patient\_features\_v2/ & PyTorch & 1.4 GB & 690 enriched per-patient tensor files (.pt) with 3D reaction features (mean, max expression, fraction above median) \\
+hma\_labels.pt & PyTorch & 7 MB & Binary reaction activity pseudo-labels from HMA (10,600 reactions; heavily active-skewed) \\
+hma\_labels\_thresholded.pt & PyTorch & 7 MB & Expression-thresholded pseudo-labels (7,434 active / 3,166 inactive; 70.1\% active) \\
+splits.json & JSON & $<$1 MB & Train (482) / validation (104) / test (104) patient split \\
+metadata.csv & CSV & $<$1 MB & Patient metadata: TCGA identifiers, tumour site labels \\
+best\_model.pt & PyTorch & 576 KB & Trained MetaGNN checkpoint (143,489 parameters) \\
+results\_summary.json & JSON & $<$1 KB & Training and test metrics \\
+stage2\_log.csv & CSV & $<$1 KB & Per-epoch training log (67 epochs, early stopped at epoch 47) \\
+depmap\_evaluation.json & JSON & $<$1 KB & DepMap CRISPR gene essentiality evaluation (61 CRC cell lines, 1,785 genes) \\
+subsystem\_mapping.json & JSON & $<$1 MB & Reaction-to-subsystem mapping via Human-GEM BiGG cross-reference (88 subsystems) \\
+README.md & Markdown & $<$1 MB & Documentation, schema, and usage instructions \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Experimental Design, Materials, and Methods}
+
+\subsection{Data Sources and Patient Selection}
+
+TCGA STAR-aligned augmented gene count files for COAD and READ cohorts were downloaded from the GDC Data Portal (\url{https://portal.gdc.cancer.gov}; dbGaP accession \texttt{phs000178}) using the GDC API in batch mode. A total of 707 files were retrieved across 14 download batches. After removing duplicates and samples failing integrity checks, 690 unique patient samples were retained. CPTAC TCGA-COAD proteomic data were obtained from the PDC Data Portal (\url{https://pdc.cancer.gov}) as a pre-processed protein group abundance table in gzipped TSV format, yielding 9,153 proteins across 95 samples (Vasaikar et al., 2019).
+
+\subsection{RNA-seq Preprocessing}
+
+Individual STAR gene count files contain gene-level counts, TPM values, and FPKM values. We extracted TPM (transcripts per million) values from the \texttt{tpm\_unstranded} column, as TPM provides a normalised measure of transcript abundance that is comparable across samples. Genes whose identifiers begin with ``N\_'' (representing alignment summary statistics rather than genes) were excluded. For genes with duplicate HGNC symbols, the first occurrence was retained. The 690 individual TPM vectors were combined into a single matrix (genes as rows, patients as columns). Genes with non-zero expression in fewer than 10\% of patients were removed, leaving 40,799 genes.
+
+\subsection{Proteomic Data Processing}
+
+The CPTAC abundance report provides median-centred, log$_2$-transformed TMT reporter ratios. Protein identifiers using gene symbols were extracted, and duplicate gene entries were removed (retaining the first occurrence). The resulting matrix of 9,153 proteins across 95 patients was saved in CSV format for downstream GPR mapping.
+
+\subsection{Recon3D Graph Construction}
+
+The Recon3D v3 model was loaded from SBML/XML format using COBRApy. The stoichiometric matrix was parsed to construct a PyTorch Geometric HeteroData object with 10,600 reaction nodes and 5,835 metabolite nodes. Directed edges were created for each non-zero entry in the stoichiometric matrix: substrate\_of edges (metabolite to reaction, for negative coefficients) and produces edges (reaction to metabolite, for positive coefficients), yielding 20,512 and 19,913 edges respectively. GPR association rules were parsed to determine which genes map to which reactions. Since Recon3D v3 lacks subsystem annotations in its SBML, metabolic subsystem labels were cross-referenced from the Human-GEM model (Robinson et al., 2020) via BiGG reaction identifiers, successfully mapping 6,639 of 10,600 reactions to 88 metabolic subsystems.
+
+\subsection{Feature Engineering}
+
+For each patient, gene expression values were mapped to reaction nodes using GPR rules with the AND = min, OR = max convention (Zur et al., 2010). When CPTAC proteomic data were available for a patient, proteomic features were mapped identically and averaged with transcriptomic features (weight 0.5 each). Patients without proteomics received zero-valued proteomic features. These original features are stored in \texttt{patient\_features/}.
+
+An enriched feature set is additionally provided in \texttt{patient\_features\_v2/}. For each reaction node and each patient, three features are computed from GPR-associated gene expression: (i) mean TPM across all encoding genes, (ii) maximum TPM, and (iii) fraction of encoding genes exceeding the cohort median TPM. This 3-dimensional per-patient reaction feature vector provides richer discriminative signal than the original scalar GPR-mapped values and is the feature set used by the trained model checkpoint.
+
+Metabolite node features (molecular weight, topological polar surface area, hydrogen bonding descriptors) were computed from ChEBI SMILES using RDKit and are shared across all patients.
+
+\subsection{Pseudo-Label Generation}
+
+Two pseudo-labelling strategies are documented in this dataset:
+
+\textbf{HMA labels} (\texttt{hma\_labels.pt}). Human Metabolic Atlas tissue-specific GEM reaction bounds (Robinson et al., 2020) were downloaded from \url{https://metabolicatlas.org}. For each of the 10,600 reactions, a binary label was assigned: 1 if the reaction retains non-zero flux bounds in the HMA model, 0 otherwise. In practice, all 10,600 reactions received the active label, producing trivially perfect classification (F1 = 1.0) and rendering these labels unsuitable for discriminative training.
+
+\textbf{Expression-thresholded labels} (\texttt{hma\_labels\_thresholded.pt}). For each reaction with a GPR rule, gene expression is evaluated per patient: a reaction is active in a given patient if any encoding gene has TPM above the cohort median (OR logic for isozymes, consistent with standard GPR interpretation). A consensus binary label is then assigned by majority vote across all 690 patients: the reaction is labelled active if more than 50\% of patients classify it as active. This yields 7,434 active (70.1\%) and 3,166 inactive (29.9\%) reactions, providing the class separation necessary for meaningful model evaluation. These are the labels used for training the provided model checkpoint.
+
+\subsection{Data Completeness and Quality}
+
+Table~\ref{tab:completeness} summarises the coverage and completeness statistics for each data modality.
+
+\begin{table}[!htbp]
+\centering
+\caption{Data completeness statistics for the MetaGNN-CRC dataset.}
+\label{tab:completeness}
+\small
+\begin{tabularx}{\textwidth}{@{}Xrrr@{}}
+\toprule
+\textbf{Modality / Layer} & \textbf{Patients} & \textbf{Features} & \textbf{Coverage} \\
+\midrule
+RNA-seq (TPM) & 690 & 40,799 genes & 100\% \\
+Proteomics (CPTAC) & 95 & 9,153 proteins & 13.8\% \\
+Reaction node features (v1, scalar GPR) & 690 & 10,600 reactions & 100\% \\
+Reaction node features (v2, 3D enriched) & 690 & 10,600 $\times$ 3 & 100\% \\
+Metabolite node features (RDKit) & shared & 110 descriptors & 100\% \\
+Graph edges (substrate\_of) & -- & 20,512 & 100\% \\
+Graph edges (produces) & -- & 19,913 & 100\% \\
+Expression-thresholded labels & consensus & 10,600 reactions & 100\% \\
+Metabolic subsystem mapping & -- & 6,639 / 10,600 rxns & 62.6\% \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+All 690 patients have complete RNA-seq coverage.
+A validation script (\texttt{05\_validate\_\allowbreak dataset.py}) is provided to verify tensor integrity: it checks that all per-patient files load without error, feature dimensions match the expected graph structure, and label distributions reproduce the reported 70.1\%/29.9\% split.
+
+The main source of missing data is the proteomic modality, which is available for only 95 patients (13.8\%; Vasaikar et al., 2019). For the remaining 595 patients, proteomic features are set to zero in the per-patient tensor files. The reaction feature tensors are complete for all patients: of the 10,600 Recon3D reactions, 5,919 have GPR rules with at least one matching gene in the expression matrix, 18 have GPR rules but no matching genes (assigned zero expression), and 4,663 lack GPR rules entirely (assigned zero expression features). Metabolite node features, computed from RDKit molecular descriptors, are shared across all patients and are complete for all 5,835 metabolite nodes with valid ChEBI SMILES.
+
+\subsection{Data Splits}
+
+The 690 patients were split 70/15/15 into training ($n = 482$), validation ($n = 104$), and test ($n = 104$) sets. The split assignments are stored in \texttt{splits.json} using patient TCGA identifiers to ensure reproducibility.
+
+\section*{Declarations}
+
+\subsection*{CRediT Author Contribution Statement}
+
+Thiptanawat Phongwattana: Conceptualization, Data Curation, Formal Analysis, Methodology, Software, Visualization, Writing -- Original Draft.
+
+Jonathan H. Chan: Conceptualization, Supervision, Resources, Project Administration, Funding Acquisition, Writing -- Review \& Editing.
+
+\subsection*{Declaration of Competing Interest}
+
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+\subsection*{Ethics Statement}
+
+All data used in this study are de-identified and were obtained through approved data access agreements for TCGA (dbGaP \texttt{phs000178}) and CPTAC. No new patient samples were collected. No additional institutional ethical approval was required.
+
+\subsection*{Data Availability}
+
+All processed data and code are publicly available at \url{https://github.com/thiptanawat/MetaGNN-CRC} under a CC-BY 4.0 licence. The companion analysis code is available at \url{https://github.com/thiptanawat/MetaGNN} under the MIT licence. Raw TCGA RNA-seq data are accessible through the GDC Data Portal (\url{https://portal.gdc.cancer.gov}; dbGaP accession phs000178). CPTAC proteomics data are accessible through the PDC Data Portal (\url{https://pdc.cancer.gov}).
+
+\subsection*{Acknowledgements}
+
+This work was supported by the Thailand Science Research and Innovation Fund (TSRI; grant CU\_FRB65\_hea(1)\_034\_30\_33). The authors acknowledge the TCGA Research Network and the National Cancer Institute's CPTAC programme for generating and publicly releasing the underlying raw datasets, and the Human Metabolic Atlas team at Chalmers University of Technology for the curated tissue-specific GEMs.
+
+\begin{thebibliography}{99}
+
+\bibitem{Brunk2018} Brunk, E., Sahoo, S., Zielinski, D.C., et al. (2018). Recon3D enables a three-dimensional view of gene variation in human metabolism. \textit{Nature Biotechnology}, 36(3), 272--281. \url{https://doi.org/10.1038/nbt.4072}
+
+\bibitem{Robinson2020} Robinson, J.L., Kocabas, P., Wang, H., et al. (2020). An atlas of human metabolism. \textit{Science Signaling}, 13(624), eaaz1482. \url{https://doi.org/10.1126/scisignal.aaz1482}
+
+\bibitem{Love2014} Love, M.I., Huber, W. \& Anders, S. (2014). Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. \textit{Genome Biology}, 15(12), 550. \url{https://doi.org/10.1186/s13059-014-0550-8}
+
+\bibitem{Heirendt2019} Heirendt, L., Arreckx, S., Pfau, T., et al. (2019). Creation and analysis of biochemical constraint-based models using the COBRA Toolbox v.3.0. \textit{Nature Protocols}, 14(3), 639--702. \url{https://doi.org/10.1038/s41596-018-0098-2}
+
+\bibitem{Zur2010} Zur, H., Ruppin, E. \& Shlomi, T. (2010). iMAT: an integrative metabolic analysis tool. \textit{Bioinformatics}, 26(24), 3140--3142. \url{https://doi.org/10.1093/bioinformatics/btq602}
+
+\bibitem{Fey2019} Fey, M. \& Lenssen, J.E. (2019). Fast graph representation learning with PyTorch Geometric. In ICLR Workshop on Representation Learning on Graphs and Manifolds.
+
+\bibitem{Gao2024} Hasibi, R., Michoel, T. \& Oyarz\'{u}n, D.A. (2024). Integration of graph neural networks and genome-scale metabolic models for predicting gene essentiality. \textit{npj Systems Biology and Applications}, 10, 24. \url{https://doi.org/10.1038/s41540-024-00348-2}
+
+\bibitem{Xin2023} Xin, H., Li, Y., Ma, S., Ouyang, W. \& Zhang, L. (2023). Teasing out missing reactions in genome-scale metabolic networks through hypergraph learning. \textit{Nature Communications}, 14, 2197. \url{https://doi.org/10.1038/s41467-023-38110-7}
+
+\bibitem{Richelle2019} Richelle, A., Kellman, B.P., Wenzel, A.T., et al. (2019). Model-based assessment of mammalian cell metabolic functionalities using omics data. \textit{Cell Systems}, 8(5), 375--387.e4. \url{https://doi.org/10.1016/j.cels.2019.04.002}
+
+\bibitem{Phongwattana2026} Phongwattana, T. \& Chan, J.H. (2026). MetaGNN: An Open-Source Heterogeneous Graph Attention Network Framework for Topology-Aware Metabolic Network Reconstruction. \textit{MethodsX}.
+
+\bibitem{Alghamdi2021} Alghamdi, N., Chang, W., Dang, P., et al. (2021). A graph neural network model to estimate cell-wise metabolic flux using single-cell RNA-seq data. \textit{Genome Research}, 31(10), 1867--1884. \url{https://doi.org/10.1101/gr.271205.120}
+
+\bibitem{Fan2025} Fan, W., Hao, Y., Hou, X., Ding, C., Huang, D., Zheng, W. \& Dai, Z. (2025). Unraveling principles of thermodynamics for genome-scale metabolic networks using graph neural networks. \textit{Cell Systems}, 16(10), 101393. \url{https://doi.org/10.1016/j.cels.2025.101393}
+
+\bibitem{Vasaikar2019} Vasaikar, S., Huang, C., Wang, X., et al. (2019). Proteogenomic analysis of human colon cancer reveals new therapeutic opportunities. \textit{Cell}, 177(4), 1035--1049.e19. \url{https://doi.org/10.1016/j.cell.2019.03.030}
+
+\end{thebibliography}
+
+\end{document}
