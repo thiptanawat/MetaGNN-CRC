@@ -1,0 +1,8 @@
+{
+  "description": "Boolean mask for patients with CPTAC proteomics",
+  "total_patients": 690,
+  "with_proteomics": 95,
+  "without_proteomics": 595,
+  "format": "PyTorch boolean tensor, shape (690,)",
+  "note": "True for patients with CPTAC TMT proteomics, False for patients with zero-filled proteomic features"
+}

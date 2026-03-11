@@ -1,0 +1,8 @@
+{
+  "description": "Boolean mask for GPR-mapped reactions",
+  "total_reactions": 10600,
+  "gpr_mapped": 5937,
+  "non_gpr": 4663,
+  "format": "PyTorch boolean tensor, shape (10600,)",
+  "note": "True for reactions with GPR rules, False for non-GPR reactions that receive default active labels"
+}

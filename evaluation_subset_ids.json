@@ -1,0 +1,10 @@
+{
+  "description": "220-patient evaluation subset used in companion MethodsX article",
+  "n_patients": 220,
+  "splits": {
+    "train": 154,
+    "val": 33,
+    "test": 33
+  },
+  "note": "Patient IDs from the standardised benchmark evaluation cohort"
+}
