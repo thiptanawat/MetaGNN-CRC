@@ -1,0 +1,6 @@
+source_file,target_file,shared_key,n_matched,n_unmatched
+patient_metadata.tsv,rnaseq_per_patient_stats.csv,patient_id,219,0
+patient_metadata.tsv,proteomics_per_patient_completeness.csv,patient_id,219,0
+patient_metadata.tsv,hma_tissue_matching.csv,patient_id,219,0
+metabolomics_coverage.csv,rnaseq_gene_stats.csv,omics_layer,219,0
+hma_tissue_summary.csv,hma_tissue_matching.csv,matched_tissue,14,0

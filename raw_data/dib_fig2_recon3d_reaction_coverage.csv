@@ -1,0 +1,4 @@
+omics_layer,n_reactions_covered,pct_of_recon3d_total,recon3d_total,mapping_method
+Transcriptomics_GPR_mapped,11430,84.4,13543,GPR AND/OR logic → min/max gene expr
+Proteomics_GPR_mapped,9870,72.9,13543,GPR AND/OR logic → min/max protein abund
+Metabolomics_node_covered,3220,23.8,13543,Reaction shares ≥1 metabolite with LC-MS panel

@@ -1,0 +1,21 @@
+check_name,status,details
+No NaN in patient_metadata,PASS,All 219 patient records complete
+Patient ID uniqueness,PASS,219 unique patient IDs
+Age range validation,PASS,All ages between 33-90 years
+Cohort distribution,PASS,155 COAD + 64 READ = 219 total
+Sex distribution,PASS,114 male (52%) + 105 female (48%)
+Stage distribution,PASS,"I:34, II:71, III:68, IV:37, Unknown:9"
+MSI distribution,PASS,"MSS:152, MSI-H:52, MSI-L:15"
+Metabolomics availability,PASS,96 patients with metabolomics
+OS data completeness,PASS,208 patients with OS data
+DFS data completeness,PASS,187 patients with DFS data
+RNA-seq gene count,PASS,"19,812 genes after filtering"
+RNA-seq GPR coverage,PASS,"2,248 genes with Recon3D associations"
+Proteomics protein count,PASS,"11,348 proteins quantified"
+Proteomics GPR coverage,PASS,"1,847 proteins with associations"
+Proteomics completeness,PASS,Mean 87% completeness per protein
+Metabolomics count,PASS,222 metabolites for 96 patients
+HMA tissue matching,PASS,14 tissue types matched
+Graph reaction nodes,PASS,"13,543 reaction nodes"
+Graph metabolite nodes,PASS,"4,140 metabolite nodes"
+Currency metabolites,PASS,15 currency metabolites identified

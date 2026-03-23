@@ -1,0 +1,5 @@
+omics_layer,n_patients,pct_of_cohort,assay_platform
+Transcriptomics_RNAseq,219,100.0,Illumina HiSeq2000 150bp PE
+Proteomics_LCMSMS,219,100.0,TMT-10plex LC-MS/MS (CPTAC)
+Metabolomics_LCMS,96,43.8,Untargeted LC-MS (Metabolon HD4)
+All_three_omics,96,43.8,All three assays matched

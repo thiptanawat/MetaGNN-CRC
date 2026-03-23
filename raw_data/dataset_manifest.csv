@@ -1,0 +1,14 @@
+filename,format,size_approx,description,n_rows_or_shape
+reaction_features_pt{001..219}.h5,HDF5,~18 MB/patient,Reaction node feature matrices X_R ∈ ℝ^(13543×2) per patient,13543 × 2 per file
+metabolite_features.h5,HDF5,~24 MB,Shared metabolite node features X_M ∈ ℝ^(4140×519),4140 × 519
+edge_index_substrate_of.pt,PyTorch tensor,~1 MB,Substrate edges M→R (29847 edges),2 × 29847
+edge_index_produces.pt,PyTorch tensor,<1 MB,Product edges R→M (17471 edges),2 × 17471
+edge_index_shared_metabolite.pt,PyTorch tensor,~2 MB,Reaction co-substrate edges R↔R (41980 edges),2 × 41980
+activity_pseudolabels.pt,PyTorch tensor,<1 MB,Binary activity labels y_r from HMA tissue GEMs,13543
+clinical_metadata.tsv,TSV,~45 KB,"Patient clinical data (barcode, stage, MSI, OS, DFS)",219 × 12
+tcga_crc_rnaseq_vst.h5,HDF5,~230 MB,VST-normalised RNA-seq gene expression matrix,60660 genes × 219 patients
+cptac_crc_protein_tmt.h5,HDF5,~95 MB,TMT-normalised protein abundances (CPTAC),11348 proteins × 219 patients
+metabolomics_lcms_normalised.tsv,TSV,~4 MB,Untargeted LC-MS metabolite intensities (log2-normalised),1012 metabolites × 96 patients
+recon3d_gem.mat,MATLAB .mat,~320 MB,Full Recon3D v3.0 genome-scale metabolic model,13543 reactions × 4140 metabolites
+hma_tissue_gems.mat,MATLAB .mat,~410 MB,98 Human Metabolic Atlas tissue-specific GEMs for pre-training,98 models
+model_weights_pretrained.pt,PyTorch .pt,~8 MB,H-GAT backbone pre-trained on 98 HMA tissue GEMs,"3-layer H-GAT, d=256"

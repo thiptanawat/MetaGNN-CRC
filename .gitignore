@@ -1,0 +1,42 @@
+# Manuscript files (kept locally, not in data repo)
+*.tex
+*.pdf
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.toc
+*.lof
+*.lot
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Raw downloads (too large for git; users re-download)
+raw_downloads/
+
+# Processed data (too large for git; stored on Zenodo)
+processed_690/
+
+# IDE
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Environment
+.env

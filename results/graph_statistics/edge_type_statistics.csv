@@ -1,0 +1,4 @@
+edge_type,n_edges,mean_stoich_coeff,sd_stoich_coeff
+substrate_of,29847,1.2,0.5
+produces,17471,1.2,0.5
+shares_metabolite,41980,,

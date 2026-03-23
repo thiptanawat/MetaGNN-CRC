@@ -1,0 +1,4 @@
+MSI_status,n_patients,pct,clinical_note
+MSS_Microsatellite_Stable,152,69.4,Low mutation burden
+MSI_H_High_Instability,52,23.7,"High mutation burden, good ICI response"
+MSI_L_Low_Instability,15,6.8,Intermediate
